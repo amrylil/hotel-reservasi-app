@@ -39,8 +39,6 @@ Sistem Reservasi Hotel Online adalah backend API yang menangani semua logika bis
 
 ## ✨ Fitur Utama
 
-## ✨ Fitur Utama
-
 ### 🔐 Autentikasi & Otorisasi
 
 - Registrasi dan login menggunakan email & password
@@ -131,7 +129,7 @@ npm run dev
 npm start
 ```
 
-Server akan berjalan di `http://localhost:3001`
+Server akan berjalan di `http://localhost:5000`
 
 ## 📜 Scripts yang Tersedia
 
