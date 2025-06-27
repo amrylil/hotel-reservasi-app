@@ -39,42 +39,59 @@ Sistem Reservasi Hotel Online adalah backend API yang menangani semua logika bis
 
 ## ✨ Fitur Utama
 
+## ✨ Fitur Utama
+
 ### 🔐 Autentikasi & Otorisasi
 
-- Sistem registrasi dan login yang aman
-- Implementasi JSON Web Tokens (JWT)
-- Middleware proteksi untuk rute yang memerlukan autentikasi
+- Registrasi dan login menggunakan email & password
+- Proteksi route dengan middleware JWT
+- Role-based access (`admin` dan `user`)
 
-### 🛌 Manajemen Kamar
+---
 
-- Operasi CRUD lengkap untuk data kamar hotel
-- Upload dan manajemen gambar kamar
-- Pengaturan harga dan ketersediaan kamar
+### 🛌 Manajemen Kamar & Tipe Kamar
 
-### 📅 Sistem Booking
+- CRUD Tipe Kamar (Standard, Deluxe, Suite, dll)
+- CRUD Data Kamar (Nomor kamar, tipe, harga, fasilitas)
+- Atur ketersediaan kamar (`availability: true/false`)
 
-- Proses pemesanan kamar yang mudah
-- Riwayat pesanan pengguna
-- Fitur pembatalan pesanan
+---
+
+### 📅 Sistem Reservasi
+
+- Pemesanan kamar dengan tanggal check-in & check-out
 - Validasi ketersediaan kamar real-time
+- Riwayat reservasi pengguna
+- Fitur pembatalan reservasi
 
-### 🔍 Pencarian & Filter
+---
 
-- Pencarian kamar berdasarkan tanggal check-in/check-out
-- Filter berdasarkan tipe kamar, harga, dan fasilitas
-- Sorting berdasarkan popularitas dan rating
+### 💳 Pembayaran (Simulasi)
 
-### ⚡ Caching dengan Redis
+- Status pembayaran: `unpaid`, `paid`, `cancelled`
+- Input nominal & tanggal pembayaran
 
-- Caching data yang sering diakses
-- Mengurangi beban database
-- Peningkatan waktu respons aplikasi
+---
 
-### 🏢 Manajemen Hotel
+### 🔍 Pencarian & Filter Kamar
 
-- Operasi CRUD untuk data hotel
-- Dukungan multi-hotel (jika diperlukan)
-- Manajemen fasilitas hotel
+- Pencarian berdasarkan:
+  - Tanggal check-in dan check-out
+- Filter berdasarkan:
+  - Tipe kamar
+  - Fasilitas (AC, WiFi, TV, dll)
+  - Harga per malam
+- Sorting berdasarkan harga (rendah ke tinggi, tinggi ke rendah)
+
+---
+
+### ⚡ Redis Caching
+
+- Caching tipe kamar & daftar kamar yang sering diakses
+- Cache hasil pencarian berdasarkan query
+- Cache invalidation saat data berubah
+
+---
 
 ## 📋 Prerequisites
 
