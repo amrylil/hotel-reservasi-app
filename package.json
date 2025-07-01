@@ -1,26 +1,17 @@
 {
   "name": "hotel-reservation-api",
-  "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
+  "private": true,
+  "workspaces": [
+    "api",
+    "view"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "dev": "nodemon server.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^16.6.1",
-    "express": "^5.1.0",
-    "mongoose": "^8.16.1",
-    "redis": "^5.5.6",
-    "zod": "^3.25.67"
+    "dev": "concurrently \"npm --workspace api run server\" \"npm --workspace view run start\""
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "autoprefixer": "^10.4.21",
+    "concurrently": "^8.0.0",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.11"
   }
 }

@@ -12,11 +12,16 @@ app.get('/', (req, res) => {
 const roomRoutes = require('./routes/room.routes');
 app.use('/api/rooms', roomRoutes);
 
-const roomRoutes = require('./routes/roomType.routes');
-app.use('/api/rooms-type', roomRoutes);
+const roomTypeRoutes = require('./routes/roomType.routes');
+app.use('/api/rooms-type', roomTypeRoutes);
 
 const userRoutes = require('./routes/user.routes');
 app.use('/api/users', userRoutes);
 
+const authRoutes = require('./routes/auth.routes');
+app.use('/api/auth', authRoutes);
+
+const reservationRoutes = require('./routes/reservation.routes');
+app.use('/api/reservations', reservationRoutes);
 
 module.exports = app;
