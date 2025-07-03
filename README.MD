@@ -1,6 +1,6 @@
 # 🏨 Sistem Aplikasi Reservasi Hotel Online
 
-**Backend API untuk Sistem Reservasi Hotel Online - Kelompok 4**
+**Sistem Reservasi Hotel Online - Kelompok 4**
 
 ## 👨‍💻 Tim Pengembang
 
@@ -10,9 +10,9 @@ Proyek ini dikembangkan oleh **Kelompok 4** yang terdiri dari:
 | ------ | --------------------- |
 | 222278 | Muh. Rezky Ramadhana  |
 | 222283 | Siti Fatimah Azzahra  |
-| 222277 | Ulil Amry Al Qadri    |
+| 222277 | Ulil Amry Al Qadri😎  |
 | 222280 | Abdullah Amar Azzikra |
-| 222264 | M. Habil Azzikri      |
+| 222264 | M. Habil Azzikri🥶    |
 | 222308 | Nur Afifah Najwa      |
 
 ## 🛠️ Teknologi yang Digunakan
@@ -105,8 +105,8 @@ Pastikan sistem Anda memiliki:
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/amrylil/hotel-reservasi-api.git
-cd hotel-reservation-api
+git clone https://github.com/amrylil/hotel-reservasi-app.git
+cd hotel-reservation-app
 ```
 
 ### 2. Install Dependencies
@@ -129,8 +129,8 @@ npm run dev
 npm start
 ```
 
-Server Backend akan berjalan di `http://localhost:5000`
-Server Aplikasi akan berjalan di `http://localhost:5173`
+- Server Backend akan berjalan di `http://localhost:5000`
+- Server Aplikasi akan berjalan di `http://localhost:5173`
 
 ## 📁 Struktur Proyek
 
