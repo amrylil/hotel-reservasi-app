@@ -24,12 +24,22 @@ const RoomController = {
 
   async create(req, res) {
     try {
-      const dto = new CreateRoomDTO(req.body);
+      const imageUrls = req.files ? req.files.map((file) => file.path) : [];
+
+      const roomData = {
+        ...req.body,
+        images: imageUrls,
+      };
+      // console.log('DATA YANG AKAN DISIMPAN:', roomData);
+      const dto = new CreateRoomDTO(roomData);
+
       const room = await RoomService.createRoom(dto);
       res.status(201).json(successResponse(room, 'Room created successfully'));
     } catch (err) {
       if (err instanceof ZodError) {
-        return res.status(400).json(errorResponse('Validation failed', err.errors));
+        return res
+          .status(400)
+          .json(errorResponse('Validation failed', err.errors));
       }
       res.status(400).json(errorResponse(err.message));
     }
@@ -42,7 +52,9 @@ const RoomController = {
       res.json(successResponse(updated, 'Room updated successfully'));
     } catch (err) {
       if (err instanceof ZodError) {
-        return res.status(400).json(errorResponse('Validation failed', err.errors));
+        return res
+          .status(400)
+          .json(errorResponse('Validation failed', err.errors));
       }
       res.status(400).json(errorResponse(err.message));
     }

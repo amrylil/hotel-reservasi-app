@@ -16,6 +16,13 @@ const registerHandler = async (req, res, next) => {
 const loginHandler = async (req, res, next) => {
   try {
     const { user, token } = await authService.login(req.body);
+
+     res.cookie('accessToken', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict', 
+      maxAge: 24 * 60 * 60 * 1000 
+    });
     res.status(200).json({
       status: 'success',
       message: 'Login successful',

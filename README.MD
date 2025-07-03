@@ -141,26 +141,29 @@ Server akan berjalan di `http://localhost:5000`
 ## 📁 Struktur Proyek
 
 ```
-HOTEL-RESERVATION-API/
-│
-├── node_modules/              # Dependencies
-├── src/
-│   ├── config/               # Konfigurasi database dan Redis
-│   ├── controllers/          # Request handlers
-│   ├── dtos/                 # Data Transfer Objects
-│   ├── helpers/              # Fungsi bantuan
-│   ├── middlewares/          # Express middlewares
-│   ├── models/               # Mongoose schemas
-│   ├── routes/               # API route definitions
-│   ├── services/             # Business logic
-│   ├── utils/                # Utility functions
-│   ├── app.js                # Express app configuration
-│   └── server.js             # Application entry point
-│
-├── .env                      # Environment variables
-├── .gitignore               # Git ignore rules
-├── package.json             # Project dependencies and scripts
-└── README.md                # Project documentation
+HOTEL_RESERVASI_APP/
+├── api/                    # Direktori untuk semua kode backend (sisi server)
+│   ├── src/                # Folder utama untuk kode sumber backend
+│   │   ├── config/         # Konfigurasi (database, Redis, dll.)
+│   │   ├── controllers/    # Penangan request HTTP (Request handlers)
+│   │   ├── dtos/           # Data Transfer Objects
+│   │   ├── helpers/        # Fungsi-fungsi bantuan
+│   │   ├── middlewares/    # Middleware untuk Express.js
+│   │   ├── models/         # Skema database (Mongoose schemas)
+│   │   ├── routes/         # Definisi rute atau endpoint API
+│   │   ├── services/       # Logika bisnis utama aplikasi
+│   │   └── utils/          # Fungsi-fungsi utilitas
+│   ├── app.js              # Konfigurasi utama aplikasi Express
+│   ├── server.js           # Titik masuk (entry point) untuk memulai server
+│   ├── .env                # Menyimpan variabel lingkungan (environment variables)
+│   ├── .gitignore          # Aturan ignore Git untuk direktori API
+│   └── package.json        # Dependensi & skrip khusus untuk backend
+├── node_modules/           # Direktori semua dependensi proyek
+├── view/                   # Direktori untuk semua kode frontend (sisi klien)
+├── package-lock.json       # Mengunci versi pasti dari setiap dependensi
+├── package.json            # Dependensi & skrip untuk tingkat atas proyek
+└── README.md               # File dokumentasi utama proyek
+
 ```
 
 ## 🔧 API Endpoints
@@ -171,7 +174,7 @@ HOTEL-RESERVATION-API/
 - `POST /api/auth/login` - Login pengguna
 - `POST /api/auth/logout` - Logout pengguna
 
-### Rooms
+### Kamar
 
 - `GET /api/rooms` - Daftar semua kamar
 - `GET /api/rooms/:id` - Detail kamar
@@ -179,12 +182,18 @@ HOTEL-RESERVATION-API/
 - `PUT /api/rooms/:id` - Update kamar (Admin)
 - `DELETE /api/rooms/:id` - Hapus kamar (Admin)
 
-### Bookings
+### Reservarsi
 
-- `GET /api/bookings` - Riwayat booking pengguna
-- `POST /api/bookings` - Buat booking baru
-- `GET /api/bookings/:id` - Detail booking
-- `PUT /api/bookings/:id/cancel` - Batalkan booking
+- `GET /api/reservations` - Riwayat booking pengguna
+- `POST /api/reservations` - Buat booking baru
+- `GET /api/reservations/:id` - Detail booking
+- `PUT /api/reservations/:id/cancel` - Batalkan booking
+
+### Pembayaran
+
+- `GET /api/payment` - Riwayat pembayaran pengguna
+- `POST /api/payment` - Melakukan pembayaran
+- `GET /api/payment/:id` - Detail pembayaran
 
 ## 🤝 Kontribusi
 
