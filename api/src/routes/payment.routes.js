@@ -1,11 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const { createTransactionHandler, notificationHandler } = require('../controllers/payment.controller');
-const { createPaymentSchema } = require('../dtos/payment.dto');
+const {
+  createTransactionHandler,
+  notificationHandler,
+} = require('../controllers/payment.controller');
 const verifyToken = require('../middlewares/auth.middleware');
-const validate = require('../middlewares/validate.middleware'); // Asumsi Anda punya ini
+const { validate } = require('../utils/validator');
+const { createPaymentSchema } = require('../dtos/payment.dto');
 
-// Endpoint untuk pengguna memulai pembayaran (perlu login)
 router.post(
   '/',
   verifyToken,
@@ -13,7 +15,7 @@ router.post(
   createTransactionHandler
 );
 
-// Endpoint untuk menerima webhook dari Midtrans (harus publik)
 router.post('/notification', notificationHandler);
+router.get('/status/:orderId', verifyToken, checkStatusHandler);
 
 module.exports = router;

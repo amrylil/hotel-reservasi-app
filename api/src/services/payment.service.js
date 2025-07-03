@@ -3,26 +3,25 @@ const crypto = require('crypto');
 const Reservation = require('../models/reservation.model');
 const Payment = require('../models/payment.model');
 
-// Inisialisasi Midtrans Client (gunakan keys Sandbox untuk development)
 const snap = new midtransClient.Snap({
-  isProduction: false,
+  isProduction: false, // Gunakan false untuk Sandbox
   serverKey: process.env.MIDTRANS_SERVER_KEY,
-  clientKey: process.env.MIDTRANS_CLIENT_KEY
+  clientKey: process.env.MIDTRANS_CLIENT_KEY,
 });
 
-/**
- * 1. Membuat transaksi pembayaran di Midtrans
- */
+const coreApi = new midtransClient.CoreApi({
+  isProduction: false,
+  serverKey: process.env.MIDTRANS_SERVER_KEY,
+  clientKey: process.env.MIDTRANS_CLIENT_KEY,
+});
+
 const createPaymentTransaction = async (userId, reservationId) => {
-  const reservation = await Reservation.findById(reservationId).populate('room');
+  const reservation = await Reservation.findById(reservationId);
   if (!reservation) throw new Error('Reservation not found');
-  if (reservation.status === 'confirmed') throw new Error('Reservation has already been paid');
-  
-  // Asumsi: Anda perlu memastikan reservasi ini milik user yang login (userId)
-  
-  // Hitung total harga (contoh: durasi x harga per malam)
-  const duration = (new Date(reservation.check_out) - new Date(reservation.check_in)) / (1000 * 3600 * 24);
-  const totalAmount = duration * reservation.room.price_per_night;
+  if (reservation.status === 'confirmed')
+    throw new Error('Reservation already paid');
+
+  const totalAmount = 150000; // Ganti dengan kalkulasi harga asli
 
   const transaction_id = `RESERVATION-${reservation._id}-${Date.now()}`;
   const parameter = {
@@ -35,7 +34,6 @@ const createPaymentTransaction = async (userId, reservationId) => {
   const transaction = await snap.createTransaction(parameter);
   const snapToken = transaction.token;
 
-  // Buat record pembayaran di database Anda
   await Payment.create({
     reservation: reservationId,
     amount: totalAmount,
@@ -47,17 +45,16 @@ const createPaymentTransaction = async (userId, reservationId) => {
   return snapToken;
 };
 
-/**
- * 2. Menangani notifikasi webhook dari Midtrans
- */
 const handleMidtransNotification = async (notification) => {
-  // Verifikasi signature key untuk keamanan
-  const hash = crypto.createHash('sha512')
-    .update(`${notification.order_id}${notification.status_code}${notification.gross_amount}${process.env.MIDTRANS_SERVER_KEY}`)
+  const hash = crypto
+    .createHash('sha512')
+    .update(
+      `${notification.order_id}${notification.status_code}${notification.gross_amount}${process.env.MIDTRANS_SERVER_KEY}`
+    )
     .digest('hex');
-  
+
   if (hash !== notification.signature_key) {
-    throw new Error('Invalid signature');
+    throw new Error('Invalid signature key');
   }
 
   const { transaction_status, order_id, payment_type } = notification;
@@ -67,8 +64,7 @@ const handleMidtransNotification = async (notification) => {
 
   payment.status = transaction_status;
   payment.payment_type = payment_type;
-  
-  // Jika pembayaran berhasil, update status reservasi menjadi 'confirmed'
+
   if (transaction_status === 'settlement') {
     await Reservation.findByIdAndUpdate(payment.reservation, {
       status: 'confirmed',
@@ -78,7 +74,36 @@ const handleMidtransNotification = async (notification) => {
   await payment.save();
 };
 
+const checkAndUpdatePaymentStatus = async (orderId) => {
+  try {
+    const transactionStatus = await coreApi.transaction.status(orderId);
+    const { transaction_status, payment_type } = transactionStatus;
+
+    const payment = await Payment.findOne({ midtrans_transaction_id: orderId });
+    if (!payment) return null; // Tidak ditemukan
+
+    payment.status = transaction_status;
+    payment.payment_type = payment_type;
+
+    if (
+      transaction_status === 'settlement' &&
+      payment.reservation.status !== 'confirmed'
+    ) {
+      await Reservation.findByIdAndUpdate(payment.reservation, {
+        status: 'confirmed',
+      });
+    }
+
+    await payment.save();
+    return payment; // Kembalikan data pembayaran yang sudah diupdate
+  } catch (error) {
+    console.error('Error checking Midtrans status:', error);
+    throw new Error('Failed to check transaction status');
+  }
+};
+
 module.exports = {
   createPaymentTransaction,
-  handleMidtransNotification
+  checkAndUpdatePaymentStatus,
+  handleMidtransNotification,
 };

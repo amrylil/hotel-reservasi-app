@@ -129,14 +129,8 @@ npm run dev
 npm start
 ```
 
-Server akan berjalan di `http://localhost:5000`
-
-## 📜 Scripts yang Tersedia
-
-- `npm start` - Menjalankan server untuk produksi
-- `npm run dev` - Menjalankan server dalam mode development dengan auto-reload
-- `npm test` - Menjalankan skrip testing (jika tersedia)
-- `npm run lint` - Menjalankan linting untuk kode
+Server Backend akan berjalan di `http://localhost:5000`
+Server Aplikasi akan berjalan di `http://localhost:5173`
 
 ## 📁 Struktur Proyek
 
