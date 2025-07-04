@@ -1,16 +1,22 @@
 const express = require('express');
 const cors = require('cors');
-const app = express();
 const cookieParser = require('cookie-parser');
 
-app.use(cors());
+const app = express();
+
+// ✅ PASANG CORS PALING ATAS
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}));
+
 app.use(express.json());
+app.use(cookieParser());
 
 app.get('/', (req, res) => {
   res.send('Hotel Reservation API is running');
 });
 
-app.use(cookieParser());
 const roomRoutes = require('./routes/room.routes');
 app.use('/api/rooms', roomRoutes);
 
