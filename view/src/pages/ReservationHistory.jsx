@@ -61,7 +61,7 @@ export default function ReservationHistory() {
                 <img
                   src={resv.room?.images?.[0] || '/placeholder.jpg'}
                   alt={resv.room?.room_type || 'Room'}
-                  className="w-80  object-cover flex-shrink-0"
+                  className="w-80 max-h-40 object-cover flex-shrink-0"
                 />
                 <div className="flex-1 p-6">
                   <div className="flex justify-between items-start mb-4">

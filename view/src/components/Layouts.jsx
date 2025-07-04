@@ -315,9 +315,9 @@ export default function Layout() {
                 <div className="flex items-center space-x-3">
                   <MapPin className="w-4 h-4 text-amber-400 flex-shrink-0" />
                   <p className="text-gray-300 text-sm">
-                    Jl. Sudirman No. 123
+                    Jl. Perintis Kemerdekaan
                     <br />
-                    Jakarta Pusat 10220
+                    Tamalanrea Indah, Makassar 10220
                   </p>
                 </div>
                 <div className="flex items-center space-x-3">

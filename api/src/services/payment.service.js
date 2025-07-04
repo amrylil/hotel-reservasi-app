@@ -1,6 +1,7 @@
 const midtransClient = require('midtrans-client');
 const Reservation = require('../models/reservation.model');
 const Payment = require('../models/payment.model');
+const roomModel = require('../models/room.model');
 
 // Inisialisasi Snap dan Core API
 const snap = new midtransClient.Snap({
@@ -103,6 +104,14 @@ const checkAndUpdatePaymentStatus = async (orderId) => {
       await Reservation.findByIdAndUpdate(payment.reservation._id, {
         status: 'confirmed',
       });
+
+      await roomModel.findByIdAndUpdate(payment.reservation.room, {
+        availability: false,
+      });
+
+      console.log(
+        `Room availability for room ID ${payment.reservation.room} has been set to false.`
+      );
     }
 
     await payment.save();
