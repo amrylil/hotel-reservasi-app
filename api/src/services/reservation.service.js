@@ -31,9 +31,7 @@ const createReservation = async (userId, reservationData) => {
   const conflictingReservation = await Reservation.findOne({
     room: roomId,
     status: { $in: ['pending', 'confirmed'] }, // Cek status yang masih aktif
-    $or: [
-      { check_in: { $lt: check_out }, check_out: { $gt: check_in } },
-    ],
+    $or: [{ check_in: { $lt: check_out }, check_out: { $gt: check_in } }],
   });
 
   if (conflictingReservation) {
@@ -60,7 +58,23 @@ const getAllReservations = async () => {
   return await Reservation.find().populate('room');
 };
 
+function getUserReservations(userId) {
+  return Reservation.find({ user: userId })
+    .populate('room') // agar data kamar ikut
+    .sort({ createdAt: -1 });
+}
+
+async function getReservationById(id, userId) {
+  const resv = await Reservation.findOne({ _id: id, user: userId }).populate(
+    'room'
+  );
+  if (!resv) throw new Error('Reservation not found');
+  return resv;
+}
+
 module.exports = {
   createReservation,
   getAllReservations,
+  getUserReservations,
+  getReservationById,
 };
