@@ -5,10 +5,12 @@ const cookieParser = require('cookie-parser');
 const app = express();
 
 // ✅ PASANG CORS PALING ATAS
-app.use(cors({
-  origin: 'http://localhost:5173',
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 app.use(cookieParser());
@@ -31,5 +33,8 @@ app.use('/api/auth', authRoutes);
 
 const reservationRoutes = require('./routes/reservation.routes');
 app.use('/api/reservations', reservationRoutes);
+
+const PaymentRoutes = require('./routes/payment.routes');
+app.use('/api/payment', PaymentRoutes);
 
 module.exports = app;
