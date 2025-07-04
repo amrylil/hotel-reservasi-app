@@ -12,7 +12,11 @@ const RoomService = {
   async createRoom(data) {
     const room = new Room(data);
     return await room.save();
-  }
+  },
+
+  async getRoomById(id) {
+  return await Room.findById(id);
+}
 };
 
 module.exports = RoomService;

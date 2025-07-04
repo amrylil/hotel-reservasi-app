@@ -5,7 +5,7 @@ const router = express.Router();
 
 const { createReservationHandler, getAllReservationsHandler } = require('../controllers/reservation.controller');
 const { validate, createReservationSchema } = require('../dtos/reservation.dto');
-const verifyToken = require('../middlewares/auth.middleware'); // Middleware autentikasi Anda
+const verifyToken = require('../middlewares/auth.middleware');
 
 router.use(verifyToken);
 
