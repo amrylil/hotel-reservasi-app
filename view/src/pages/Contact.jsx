@@ -22,16 +22,12 @@ export default function Contact() {
   };
 
   return (
-    <div className="min-h-screen text-white">
+    <div className="min-h-screen pt-32 text-white">
       <div className="max-w-3xl mx-auto px-4 py-12">
-
-        <Link to="/" className="text-blue-400 hover:underline mb-6 inline-block">
-          ← Back to Home
-        </Link>
-
         <h1 className="text-5xl font-bold mb-6 text-center">Contact Us</h1>
         <p className="text-gray-300 text-center max-w-xl mx-auto mb-10">
-          Have questions or special requests? Reach out and our team will be happy to help you.
+          Have questions or special requests? Reach out and our team will be
+          happy to help you.
         </p>
 
         {submitted && (
@@ -40,7 +36,10 @@ export default function Contact() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-6 bg-white/10 backdrop-blur-lg p-8 rounded-xl border border-white/20">
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-6 bg-white/10 backdrop-blur-lg p-8 rounded-xl border border-white/20"
+        >
           <div>
             <label className="block text-sm mb-2">Name</label>
             <input

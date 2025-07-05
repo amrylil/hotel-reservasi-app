@@ -102,16 +102,16 @@ export default function Layout() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white font-jost">
       {/* Background Elements */}
       <div className="absolute inset-0 bg-black/20"></div>
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-amber-500/10 rounded-full mix-blend-multiply filter blur-3xl opacity-30 -z-10"></div>
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-slate-600/10 rounded-full mix-blend-multiply filter blur-3xl opacity-30 -z-10"></div>
 
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-black/30 backdrop-blur-lg border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-black/30 backdrop-blur-lg border-b border-white/10  ">
+        <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-4">
+          <div className="flex justify-between items-center py-4  ">
             <Link to="/" className="flex items-center space-x-3">
               <div className="w-12 h-12 bg-gradient-to-r from-amber-500 to-amber-600 rounded-xl flex items-center justify-center shadow-lg">
                 <span className="text-white font-bold text-xl">H</span>
@@ -119,9 +119,6 @@ export default function Layout() {
               <div>
                 <span className="text-white text-2xl font-bold block">
                   Luxury Hotel
-                </span>
-                <span className="text-amber-400 text-sm font-medium">
-                  Experience Excellence
                 </span>
               </div>
             </Link>
@@ -226,7 +223,7 @@ export default function Layout() {
       </header>
 
       {/* Main Content */}
-      <main className="relative z-10 pt-20">
+      <main className="relative z-10 ">
         <Outlet />
       </main>
 

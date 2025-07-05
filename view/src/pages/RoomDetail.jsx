@@ -65,7 +65,15 @@ export default function RoomDetail() {
       navigate(`/reservations/${data.data._id}`);
     } catch (err) {
       console.error(err);
-      setReservationMessage({ type: 'error', text: err.message });
+      if (err.message === 'Invalid Token') {
+        setReservationMessage({
+          type: 'error',
+          text: 'Anda belum login, login terlebih dahulu.',
+        });
+      } else {
+        // For any other error, display the message as is
+        setReservationMessage({ type: 'error', text: err.message });
+      }
     } finally {
       setLoadingReservation(false);
     }
@@ -73,7 +81,7 @@ export default function RoomDetail() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      <div className="min-h-screen pt-32 flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-400 mx-auto mb-4"></div>
           <p className="text-white text-xl">Loading room details...</p>
@@ -84,7 +92,7 @@ export default function RoomDetail() {
 
   if (!room) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      <div className="min-h-screen pt-32 flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
         <div className="text-center">
           <h2 className="text-3xl font-bold text-white mb-4">Room Not Found</h2>
           <p className="text-gray-300 mb-6">
@@ -102,31 +110,9 @@ export default function RoomDetail() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
+    <div className="min-h-screen pt-32 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
       {/* Header */}
-      <div className="bg-black/30 backdrop-blur-sm sticky top-0 z-10 border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Link
-            to="/"
-            className="inline-flex items-center text-amber-400 hover:text-amber-300 transition-colors duration-200"
-          >
-            <svg
-              className="w-5 h-5 mr-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-            Back to Rooms
-          </Link>
-        </div>
-      </div>
+      <div className="bg-black/30 backdrop-blur-sm sticky top-0 z-10 border-b border-white/10"></div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Room Header */}

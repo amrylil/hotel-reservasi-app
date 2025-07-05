@@ -216,7 +216,7 @@ export default function ReservationDetail() {
   const totalPrice = nights * pricePerNight;
 
   return (
-    <div className="min-h-screen text-white">
+    <div className="min-h-screen text-white pt-32">
       <header className="text-center py-12">
         <h1 className="text-4xl font-bold mb-4">Reservation Details</h1>
         <Link

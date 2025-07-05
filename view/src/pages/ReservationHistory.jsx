@@ -29,7 +29,7 @@ export default function ReservationHistory() {
   }, []);
 
   return (
-    <div className="min-h-screen text-white">
+    <div className="min-h-screen text-white pt-32">
       <header className="text-center py-12">
         <h1 className="text-5xl font-bold mb-4">My Reservations</h1>
         <p className="text-gray-300 max-w-xl mx-auto">
