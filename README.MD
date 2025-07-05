@@ -8,12 +8,12 @@ Proyek ini dikembangkan oleh **Kelompok 4** yang terdiri dari:
 
 | NIM    | Nama Lengkap             |
 | ------ | ------------------------ |
-| 222278 | Muh. Rezky Ramadhana 🚀  |
-| 222283 | Siti Fatimah Azzahra 🌟  |
+| 222278 | Muh. Rezky Ramadhana 😁  |
+| 222283 | Siti Fatimah Azzahra 😯  |
 | 222277 | Ulil Amry Al Qadri 😎    |
-| 222280 | Abdullah Amar Azzikra 🎯 |
+| 222280 | Abdullah Amar Azzikra 😅 |
 | 222264 | M. Habil Azzikri 🥶      |
-| 222308 | Nur Afifah Najwa 💎      |
+| 222308 | Nur Afifah Najwa 😜      |
 
 ## 🛠️ Teknologi yang Digunakan
 
