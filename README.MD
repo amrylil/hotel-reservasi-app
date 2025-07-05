@@ -26,80 +26,23 @@ Proyek ini dikembangkan oleh **Kelompok 4** yang terdiri dari:
 ![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
 
-Aplikasi ini dibangun menggunakan tumpukan teknologi yang andal dan modern:
-
-### Frontend
-
-- **React** - Library JavaScript untuk membangun user interface
-- **Vite** - Build tool yang cepat untuk development
-- **TailwindCSS** - Framework CSS utility-first
-- **React Router** - Routing untuk aplikasi React
-- **Axios** - HTTP client untuk komunikasi dengan API
-
-### Backend
-
-- **Node.js** - Runtime JavaScript untuk backend
-- **Express.js** - Framework web untuk Node.js
-- **MongoDB** - Database NoSQL untuk penyimpanan data
-- **Mongoose** - ODM (Object Document Mapper) untuk MongoDB
-- **Redis** - In-memory database untuk caching
-- **JWT** - JSON Web Tokens untuk autentikasi
-
 ## 📝 Deskripsi Proyek
 
 Sistem Reservasi Hotel Online adalah aplikasi web fullstack yang menangani semua aspek pemesanan hotel, mulai dari pencarian kamar hingga pembayaran. Aplikasi ini dirancang dengan arsitektur modern yang memisahkan frontend dan backend, memberikan user experience yang responsif dan performa tinggi dengan implementasi caching menggunakan Redis.
 
 ## ✨ Fitur Utama
 
-### 🔐 Autentikasi & Otorisasi
+#### 🔐 Autentikasi & Otorisasi
 
-- Registrasi dan login dengan validasi email & password
-- Dashboard pengguna dengan role-based access
-- Proteksi route dengan JWT authentication
-- Sistem logout yang aman
+#### 🛌 Manajemen Kamar & Tipe Kamar
 
-### 🛌 Manajemen Kamar & Tipe Kamar
+#### 📅 Sistem Reservasi
 
-- Katalog kamar dengan gambar dan deskripsi lengkap
-- Berbagai tipe kamar (Standard, Deluxe, Suite, Presidential)
-- Informasi fasilitas kamar (AC, WiFi, TV, Minibar, dll)
-- Sistem ketersediaan kamar real-time
+#### 💳 Sistem Pembayaran
 
-### 📅 Sistem Reservasi
+#### 🔍 Pencarian & Filter Kamar
 
-- Pemesanan kamar dengan calendar picker
-- Validasi ketersediaan kamar berdasarkan tanggal
-- Riwayat reservasi dengan status tracking
-- Fitur pembatalan dan modifikasi reservasi
-- Konfirmasi pemesanan via email
-
-### 💳 Sistem Pembayaran
-
-- Multiple payment methods (Credit Card, Bank Transfer, E-wallet)
-- Simulasi pembayaran dengan status tracking
-- Invoice dan receipt digital
-- Riwayat transaksi lengkap
-
-### 🔍 Pencarian & Filter Kamar
-
-- Pencarian berdasarkan tanggal check-in dan check-out
-- Filter berdasarkan tipe kamar, fasilitas, dan harga
-- Sorting berdasarkan harga, rating, dan popularitas
-- Hasil pencarian dengan paginasi
-
-### 📱 User Interface
-
-- Design responsif untuk desktop dan mobile
-- Dashboard admin untuk manajemen hotel
-- Interface user yang intuitif dan modern
-- Loading states dan error handling
-
-### ⚡ Performance & Caching
-
-- Redis caching untuk data yang sering diakses
-- Optimasi query database
-- Lazy loading untuk gambar
-- API response caching
+#### 📱 User Interface
 
 ## 📋 Prerequisites
 
@@ -125,36 +68,12 @@ cd hotel-reservation-app
 npm install
 ```
 
-### 3. Setup Environment Variables
-
-Buat file `.env` di direktori `api/` dengan konfigurasi berikut:
-
-```bash
-# Database
-MONGODB_URI=mongodb://localhost:27017/hotel_reservation
-REDIS_URL=redis://localhost:6379
-
-# JWT
-JWT_SECRET=your_jwt_secret_key
-JWT_EXPIRES_IN=7d
-
-# Server
-PORT=5000
-NODE_ENV=development
-```
-
-### 4. Jalankan Aplikasi
+### 3. Jalankan Aplikasi
 
 **Development Mode:**
 
 ```bash
 npm run dev
-```
-
-**Production Mode:**
-
-```bash
-npm start
 ```
 
 - **Frontend** akan berjalan di `http://localhost:5173`
@@ -196,51 +115,9 @@ HOTEL_RESERVASI_APP/
 └── README.md               # Project documentation
 ```
 
-## 🎯 Fitur Aplikasi
-
-### 👤 Untuk Pengguna
-
-- Registrasi dan login account
-- Browse dan cari kamar hotel
-- Lihat detail kamar dengan foto dan fasilitas
-- Booking kamar dengan pilihan tanggal
-- Kelola reservasi (lihat, batalkan, modifikasi)
-- Proses pembayaran dan lihat invoice
-- Riwayat transaksi dan booking
-
-### 👨‍💼 Untuk Admin
-
-- Dashboard admin dengan analytics
-- Manajemen kamar (tambah, edit, hapus)
-- Manajemen tipe kamar dan fasilitas
-- Lihat semua reservasi dan pembayaran
-- Kelola ketersediaan kamar
-- Laporan revenue dan occupancy
-
 ## 🤝 Kontribusi
 
 Proyek ini dikembangkan sebagai tugas akademik oleh **Kelompok 4**. Kontribusi dari semua anggota tim sangat dihargai untuk pengembangan dan perbaikan sistem.
-
-### Guidelines Kontribusi:
-
-1. Buat branch baru untuk setiap fitur
-2. Ikuti konvensi penamaan yang konsisten
-3. Tambahkan dokumentasi untuk fitur baru
-4. Test sebelum merge ke main branch
-5. Gunakan commit message yang jelas dan deskriptif
-
-## 📸 Screenshots
-
-> _Screenshots aplikasi akan ditambahkan setelah development selesai_
-
-## 🔮 Pengembangan Selanjutnya
-
-- [ ] Integrasi payment gateway real
-- [ ] Sistem review dan rating
-- [ ] Push notification
-- [ ] Mobile app dengan React Native
-- [ ] Multi-language support
-- [ ] Advanced analytics dashboard
 
 ## 📄 Lisensi
 
