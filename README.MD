@@ -9,11 +9,11 @@ Proyek ini dikembangkan oleh **Kelompok 4** yang terdiri dari:
 | NIM    | Nama Lengkap             |
 | ------ | ------------------------ |
 | 222278 | Muh. Rezky Ramadhana 😁  |
-| 222283 | Siti Fatimah Azzahra 😯  |
+| 222283 | Siti Fatimah Azzahra 🧕  |
 | 222277 | Ulil Amry Al Qadri 😎    |
 | 222280 | Abdullah Amar Azzikra 😅 |
 | 222264 | M. Habil Azzikri 🥶      |
-| 222308 | Nur Afifah Najwa 😜      |
+| 222308 | Nur Afifah Najwa 🧕      |
 
 ## 🛠️ Teknologi yang Digunakan
 
@@ -25,6 +25,7 @@ Proyek ini dikembangkan oleh **Kelompok 4** yang terdiri dari:
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)
 ![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+![Midtrans](https://img.shields.io/badge/Midtrans-02B2AC?style=for-the-badge&logo=midtrans&logoColor=white)
 
 ## 📝 Deskripsi Proyek
 
@@ -32,17 +33,53 @@ Sistem Reservasi Hotel Online adalah aplikasi web fullstack yang menangani semua
 
 ## ✨ Fitur Utama
 
-#### 🔐 Autentikasi & Otorisasi
+### 🔐 Autentikasi & Otorisasi
 
-#### 🛌 Manajemen Kamar & Tipe Kamar
+- Login dan registrasi pengguna
+- Role-based access control (admin & customer)
+- JWT authentication untuk keamanan
 
-#### 📅 Sistem Reservasi
+### 🛌 Manajemen Kamar Hotel
 
-#### 💳 Sistem Pembayaran
+- CRUD (Create, Read, Update, Delete) data kamar
+- Manajemen tipe kamar dan fasilitas
+- Upload gambar kamar
+- Pengelolaan harga dan availability
 
-#### 🔍 Pencarian & Filter Kamar
+### 📅 Sistem Reservasi
 
-#### 📱 User Interface
+- Pemesanan kamar dengan pilihan tanggal check-in dan check-out
+- Validasi ketersediaan kamar
+- Konfirmasi booking otomatis
+- Status reservasi real-time
+
+### 💳 Sistem Pembayaran
+
+- Integrasi dengan **Midtrans Payment Gateway**
+- Mendukung berbagai metode pembayaran (kartu kredit, e-wallet, bank transfer)
+- Sistem pembayaran yang aman dan terpercaya
+- Notifikasi pembayaran otomatis
+
+### 🔍 Pencarian & Filter Kamar
+
+- Filter kamar berdasarkan tanggal check-in dan check-out
+- Pencarian berdasarkan tipe kamar
+- Filter harga dan fasilitas
+- Sorting berdasarkan harga dan rating
+
+### 📊 Riwayat Transaksi
+
+- Melihat riwayat pemesanan
+- Detail transaksi dan status pembayaran
+- Download invoice/receipt
+- Tracking status reservasi
+
+### 📱 User Interface
+
+- Responsive design untuk semua device
+- Modern dan user-friendly interface
+- Real-time updates menggunakan WebSocket
+- Loading states dan error handling
 
 ## 📋 Prerequisites
 
@@ -52,6 +89,7 @@ Pastikan sistem Anda memiliki:
 - **MongoDB** (local atau cloud)
 - **Redis** server
 - **npm** atau **yarn** package manager
+- **Midtrans Account** untuk payment gateway
 
 ## 🚀 Instalasi dan Penggunaan
 
@@ -68,7 +106,15 @@ cd hotel-reservation-app
 npm install
 ```
 
-### 3. Jalankan Aplikasi
+### 3. Seed Database
+
+Jalankan perintah berikut untuk mengisi database dengan data sampel:
+
+```bash
+node api/seedAll.js
+```
+
+### 4. Jalankan Aplikasi
 
 **Development Mode:**
 
@@ -78,6 +124,12 @@ npm run dev
 
 - **Frontend** akan berjalan di `http://localhost:5173`
 - **Backend API** akan berjalan di `http://localhost:5000`
+
+## 💳 Testing Pembayaran
+
+Untuk melakukan testing pembayaran, gunakan **Midtrans Simulator**:
+
+**🔗 [Midtrans Payment Simulator](https://simulator.sandbox.midtrans.com/)**
 
 ## 📁 Struktur Proyek
 
@@ -96,6 +148,7 @@ HOTEL_RESERVASI_APP/
 │   │   └── utils/          # Utility functions
 │   ├── app.js              # Express app configuration
 │   ├── server.js           # Server entry point
+│   ├── seedAll.js          # Database seeder
 │   ├── .env                # Environment variables
 │   └── package.json        # Backend dependencies
 ├── view/                   # Frontend React App (Client-side)
@@ -115,6 +168,33 @@ HOTEL_RESERVASI_APP/
 └── README.md               # Project documentation
 ```
 
+## 🔧 API Endpoints
+
+### Authentication
+
+- `POST /api/auth/login` - Login pengguna
+- `POST /api/auth/register` - Registrasi pengguna
+- `POST /api/auth/logout` - Logout pengguna
+
+### Rooms
+
+- `GET /api/rooms` - Mendapatkan daftar kamar
+- `POST /api/rooms` - Membuat kamar baru (admin only)
+- `PUT /api/rooms/:id` - Update kamar (admin only)
+- `DELETE /api/rooms/:id` - Hapus kamar (admin only)
+
+### Reservations
+
+- `POST /api/reservations` - Membuat reservasi
+- `GET /api/reservations` - Mendapatkan riwayat reservasi
+- `GET /api/reservations/:id` - Detail reservasi
+
+### Payments
+
+- `POST /api/payments/create` - Membuat pembayaran
+- `POST /api/payments/notification` - Webhook Midtrans
+- `GET /api/payments/status/:orderId` - Status pembayaran
+
 ## 🤝 Kontribusi
 
 Proyek ini dikembangkan sebagai tugas akademik oleh **Kelompok 4**. Kontribusi dari semua anggota tim sangat dihargai untuk pengembangan dan perbaikan sistem.
@@ -131,4 +211,4 @@ Untuk pertanyaan atau dukungan teknis, silakan hubungi salah satu anggota tim pe
 
 **© 2025 Kelompok 4 - Sistem Aplikasi Reservasi Hotel Online**
 
-_Dibuat dengan ❤️ menggunakan React, Express.js, dan MongoDB_
+_Dibuat dengan ❤️ menggunakan React, Express.js, MongoDB, dan Midtrans_
