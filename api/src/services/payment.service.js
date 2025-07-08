@@ -3,7 +3,6 @@ const Reservation = require('../models/reservation.model');
 const Payment = require('../models/payment.model');
 const roomModel = require('../models/room.model');
 
-// Inisialisasi Snap dan Core API
 const snap = new midtransClient.Snap({
   isProduction: false,
   serverKey: process.env.MIDTRANS_SERVER_KEY,
@@ -48,8 +47,8 @@ const createPaymentTransaction = async (userId, reservationId) => {
       },
     ],
     customer_details: {
-      first_name: 'Customer Name', // Ganti dengan nama user
-      email: 'customer@example.com', // Ganti dengan email user
+      first_name: 'Customer Name',
+      email: 'customer@example.com',
     },
   };
 
@@ -60,7 +59,6 @@ const createPaymentTransaction = async (userId, reservationId) => {
   let payment = await Payment.findOne({ reservation: reservationId });
 
   if (payment) {
-    // Jika sudah ada, UPDATE datanya
     payment.amount = totalAmount;
     payment.midtrans_transaction_id = transaction_id;
     payment.snap_token = snapToken;
@@ -68,7 +66,6 @@ const createPaymentTransaction = async (userId, reservationId) => {
     await payment.save();
     console.log(`Payment document UPDATED for reservation ${reservationId}`);
   } else {
-    // Jika belum ada, CREATE yang baru
     await Payment.create({
       reservation: reservationId,
       amount: totalAmount,

@@ -1,24 +1,29 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+// 1. Impor `Link` dan `useNavigate` dari react-router-dom
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Home() {
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // State untuk form pencarian
   const [checkIn, setCheckIn] = useState('');
   const [checkOut, setCheckOut] = useState('');
   const [guests, setGuests] = useState('2');
+  const [searchError, setSearchError] = useState('');
 
+  // 2. Inisialisasi hook `useNavigate`
+  const navigate = useNavigate();
+
+  // Fetch kamar terlaris untuk ditampilkan di beranda
   useEffect(() => {
     const fetchRooms = async () => {
       try {
         const res = await fetch('http://localhost:5000/api/rooms');
         const json = await res.json();
         console.log('Rooms API response:', json);
-
-        // ✅ Fix: ambil dari json.data
         setRooms(json.data.slice(0, 3));
       } catch (err) {
         console.error('Failed to fetch rooms:', err);
@@ -29,6 +34,27 @@ export default function Home() {
 
     fetchRooms();
   }, []);
+
+  // 3. Buat fungsi untuk menangani logika pencarian
+  const handleSearch = () => {
+    // Validasi input
+    if (!checkIn || !checkOut) {
+      setSearchError('Silakan pilih tanggal check-in dan check-out.');
+      // Sembunyikan pesan error setelah beberapa detik
+      setTimeout(() => setSearchError(''), 3000);
+      return;
+    }
+
+    if (new Date(checkOut) <= new Date(checkIn)) {
+      setSearchError('Tanggal check-out harus setelah tanggal check-in.');
+      setTimeout(() => setSearchError(''), 3000);
+      return;
+    }
+
+    // Jika valid, arahkan ke halaman hasil pencarian
+    setSearchError('');
+    navigate(`/search-results?check_in=${checkIn}&check_out=${checkOut}`);
+  };
 
   return (
     <>
@@ -75,6 +101,12 @@ export default function Home() {
         {/* Floating Search Form */}
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30 w-full max-w-6xl px-4">
           <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-6 md:p-8 border border-white/20 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:bg-white/15">
+            {/* Pesan Error untuk form pencarian */}
+            {searchError && (
+              <div className="mb-4 text-center bg-red-500/20 border border-red-500 text-red-300 px-4 py-2 rounded-lg transition-opacity duration-300">
+                {searchError}
+              </div>
+            )}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
               {/* Check-in */}
               <div className="relative">
@@ -106,13 +138,10 @@ export default function Home() {
                 <label className="block text-white/90 font-medium mb-2 text-sm uppercase tracking-wide">
                   Guests
                 </label>
-
-                {/* Wrapper untuk memposisikan ikon */}
                 <div className="relative w-full">
                   <select
                     value={guests}
                     onChange={(e) => setGuests(e.target.value)}
-                    // 1. Sembunyikan panah default & tambah padding kanan untuk ikon baru
                     className="w-full appearance-none rounded-xl border border-white/20 bg-white/10 backdrop-blur-sm p-4 pr-12 text-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent focus:bg-white/20 transition-all duration-300 hover:bg-white/15"
                   >
                     <option value="1" className="bg-gray-900 text-white">
@@ -131,8 +160,6 @@ export default function Home() {
                       5+ Guests
                     </option>
                   </select>
-
-                  {/* 2. Tambahkan ikon SVG kustom di sini */}
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-white/70">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -150,8 +177,12 @@ export default function Home() {
                 </div>
               </div>
 
+              {/* 4. Tambahkan `onClick` event ke tombol pencarian */}
               <div className="relative flex items-end">
-                <button className="w-full h-14 bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 rounded-xl text-white font-semibold text-lg hover:from-orange-600 hover:via-orange-700 hover:to-orange-800 focus:outline-none focus:ring-4 focus:ring-orange-500/40 transform hover:scale-105 hover:-translate-y-1 transition-all duration-300 shadow-lg hover:shadow-2xl flex items-center justify-center space-x-3">
+                <button
+                  onClick={handleSearch}
+                  className="w-full h-14 bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 rounded-xl text-white font-semibold text-lg hover:from-orange-600 hover:via-orange-700 hover:to-orange-800 focus:outline-none focus:ring-4 focus:ring-orange-500/40 transform hover:scale-105 hover:-translate-y-1 transition-all duration-300 shadow-lg hover:shadow-2xl flex items-center justify-center space-x-3"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-6 w-6"
@@ -166,7 +197,6 @@ export default function Home() {
                       d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                     />
                   </svg>
-
                   <span>Search Rooms</span>
                 </button>
               </div>
@@ -175,6 +205,8 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Sisa dari komponen (Welcome, Rooms, Amenities, dll.) tetap sama */}
+      {/* ... (kode tidak diubah) ... */}
       {/* Welcome Section */}
       <section className="py-20 bg-gradient-to-br from-slate-900/30 via-slate-800/20 to-slate-900/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -287,6 +319,7 @@ export default function Home() {
                   <p className="text-orange-400 mb-4 text-xl font-bold">
                     Rp {room.price_per_night?.toLocaleString()}
                     <span className="text-gray-400 text-sm font-normal">
+                      {' '}
                       / malam
                     </span>
                   </p>
@@ -313,7 +346,6 @@ export default function Home() {
           </Link>
         </div>
       </section>
-
       {/* Amenities Section */}
       <section className="py-20 bg-gradient-to-br from-slate-900/30 via-slate-800/20 to-slate-900/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -488,38 +520,6 @@ export default function Home() {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 rounded-3xl p-12 shadow-2xl hover:shadow-3xl transition-all duration-300 relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-orange-600/20 to-orange-700/20 animate-pulse"></div>
-            <div className="relative z-10">
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
-                Ready for Your Perfect Stay?
-              </h2>
-              <p className="text-xl text-white/90 mb-10 max-w-2xl mx-auto leading-relaxed">
-                Don't wait - book your dream vacation today and experience
-                luxury like never before.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                <Link
-                  to="/rooms"
-                  className="bg-white text-orange-600 px-10 py-4 rounded-xl font-bold text-lg hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-                >
-                  View Available Rooms
-                </Link>
-                <Link
-                  to="/contact"
-                  className="bg-transparent border-2 border-white text-white px-10 py-4 rounded-xl font-bold text-lg hover:bg-white hover:text-orange-600 transition-all duration-300 transform hover:scale-105"
-                >
-                  Contact Us
-                </Link>
-              </div>
-            </div>
           </div>
         </div>
       </section>
