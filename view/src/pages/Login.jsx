@@ -14,7 +14,7 @@ export default function Login() {
   const handleLogin = async () => {
     setError('');
 
-    // ✅ Simple validation
+    // Simple validation
     if (!email || !password) {
       setError('Email and Password are required.');
       return;
@@ -26,10 +26,10 @@ export default function Login() {
       const response = await fetch('http://localhost:5000/api/auth/login', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email, password }),
-        credentials: 'include' // ✅ for cookie-based auth
+        credentials: 'include', // Crucial for cookie-based auth
       });
 
       const data = await response.json();
@@ -38,11 +38,14 @@ export default function Login() {
         throw new Error(data.message || 'Login failed');
       }
 
-      console.log('Login success:', data);
-
-      // ✅ Redirect to home page
-      navigate('/');
-
+      const user = data.data.user;
+      if (user && user.role === 'admin') {
+        // Redirect to the admin dashboard
+        navigate('/admin', { replace: true });
+      } else {
+        // Redirect to the user home page
+        navigate('/', { replace: true });
+      }
     } catch (err) {
       console.error(err);
       setError(err.message);
@@ -89,7 +92,7 @@ export default function Login() {
               <Lock className="h-5 w-5 text-amber-400" />
             </div>
             <input
-              type={showPassword ? "text" : "password"}
+              type={showPassword ? 'text' : 'password'}
               placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -100,7 +103,11 @@ export default function Login() {
               onClick={() => setShowPassword(!showPassword)}
               className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-amber-400 transition-colors"
             >
-              {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+              {showPassword ? (
+                <EyeOff className="h-5 w-5" />
+              ) : (
+                <Eye className="h-5 w-5" />
+              )}
             </button>
           </div>
 
@@ -130,7 +137,10 @@ export default function Login() {
 
         {/* Additional Options */}
         <div className="mt-8 text-center">
-          <a href="#" className="text-sm text-gray-300 hover:text-amber-400 transition-colors">
+          <a
+            href="#"
+            className="text-sm text-gray-300 hover:text-amber-400 transition-colors"
+          >
             Forgot your password?
           </a>
         </div>
@@ -138,7 +148,10 @@ export default function Login() {
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-400">
             Don't have an account?{' '}
-            <a href="/register" className="text-amber-400 hover:text-amber-300 font-medium transition-colors">
+            <a
+              href="/register"
+              className="text-amber-400 hover:text-amber-300 font-medium transition-colors"
+            >
               Sign up
             </a>
           </p>

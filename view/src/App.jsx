@@ -12,6 +12,8 @@ import Layout from './layouts/Layouts';
 import Rooms from './pages/admin/Rooms';
 import AdminLayout from './layouts/AdminLayout';
 import SearchResults from './pages/SearchResults';
+import UsersPage from './pages/admin/Users';
+import ReservasiPage from './pages/admin/Reservasi';
 
 function App() {
   return (
@@ -29,6 +31,9 @@ function App() {
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Rooms />} />
+          <Route path="users" element={<UsersPage />} />
+          <Route path="rooms" element={<Rooms />} />
+          <Route path="reservasi" element={<ReservasiPage />} />
         </Route>
 
         <Route path="/login" element={<Login />} />

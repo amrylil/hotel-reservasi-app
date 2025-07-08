@@ -2,7 +2,7 @@ const reservationService = require('../services/reservation.service');
 
 const createReservationHandler = async (req, res) => {
   try {
-    const userId = req.userId; // ✅ pakai req.userId
+    const userId = req.userId;
     const reservationData = req.body;
 
     const reservation = await reservationService.createReservation(

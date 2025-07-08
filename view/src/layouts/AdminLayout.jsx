@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Outlet, NavLink } from 'react-router-dom';
+import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import {
-  Home,
   Calendar,
   Users,
   Bed,
   CreditCard,
-  Settings,
-  BarChart3,
-  FileText,
-  Bell,
   User,
   Menu,
   X,
@@ -17,19 +12,57 @@ import {
   LogOut,
 } from 'lucide-react';
 
+// Helper function to delete a cookie
+const deleteCookie = (name) => {
+  document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+};
+
 export default function AdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  const [authStatus, setAuthStatus] = useState('checking'); // 'checking', 'authenticated', 'unauthenticated'
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const res = await fetch('http://localhost:5000/api/auth/me', {
+          credentials: 'include',
+        });
+
+        if (res.ok) {
+          const result = await res.json();
+          setUser(result.data); // Assuming the user data is in result.data
+          setAuthStatus('authenticated');
+        } else {
+          setUser(null);
+          setAuthStatus('unauthenticated');
+          navigate('/login', { replace: true });
+        }
+      } catch (error) {
+        console.error('Authentication check failed:', error);
+        setUser(null);
+        setAuthStatus('unauthenticated');
+        navigate('/login', { replace: true });
+      }
+    };
+
+    checkAuth();
+  }, [navigate]);
+
+  const handleLogout = () => {
+    deleteCookie('accessToken');
+    setUser(null);
+    setAuthStatus('unauthenticated');
+    navigate('/login', { replace: true });
+  };
 
   const menuItems = [
-    { to: '.', icon: Home, label: 'Dashboard', exact: true },
     { to: 'reservasi', icon: Calendar, label: 'Reservasi' },
-    { to: 'kamar', icon: Bed, label: 'Kamar' },
-    { to: 'tamu', icon: Users, label: 'Tamu' },
-    { to: 'pembayaran', icon: CreditCard, label: 'Pembayaran' },
-    { to: 'laporan', icon: BarChart3, label: 'Laporan' },
-    { to: 'invoices', icon: FileText, label: 'Invoices' },
-    { to: 'pengaturan', icon: Settings, label: 'Pengaturan' },
+    { to: 'rooms', icon: Bed, label: 'Kamar' },
+    { to: 'users', icon: Users, label: 'Users' },
+    // { to: 'pembayaran', icon: CreditCard, label: 'Pembayaran' },
   ];
 
   // Close user menu when clicking outside
@@ -44,6 +77,15 @@ export default function AdminLayout() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [userMenuOpen]);
 
+  // Show a loading spinner while checking authentication
+  if (authStatus === 'checking') {
+    return (
+      <div className="flex items-center justify-center h-screen bg-gray-50">
+        <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600"></div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 flex">
       {/* overlay mobile */}
@@ -57,7 +99,7 @@ export default function AdminLayout() {
       {/* sidebar */}
       <aside
         className={`fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg
-          transform duration-300 ease-in-out lg:translate-x-0  lg:inset-0
+          transform duration-300 ease-in-out lg:translate-x-0 lg:inset-0
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
       >
         {/* brand */}
@@ -88,11 +130,11 @@ export default function AdminLayout() {
                   end={exact}
                   className={({ isActive }) =>
                     `flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors
-                     ${
-                       isActive
-                         ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-700'
-                         : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
-                     }`
+                      ${
+                        isActive
+                          ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-700'
+                          : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                      }`
                   }
                   onClick={() => setSidebarOpen(false)}
                 >
@@ -104,17 +146,23 @@ export default function AdminLayout() {
           </ul>
         </nav>
 
-        {/* user di bawah */}
+        {/* Dynamic user info at the bottom */}
         <div className="absolute bottom-0 left-0 right-0 p-4 border-t">
-          <div className="flex items-center">
-            <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
-              <User className="w-5 h-5 text-gray-600" />
+          {user ? (
+            <div className="flex items-center">
+              <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
+                <User className="w-5 h-5 text-gray-600" />
+              </div>
+              <div className="ml-3 overflow-hidden">
+                <p className="text-sm font-medium text-gray-900 truncate">
+                  {user.name}
+                </p>
+                <p className="text-xs text-gray-500 truncate">{user.email}</p>
+              </div>
             </div>
-            <div className="ml-3">
-              <p className="text-sm font-medium text-gray-900">Admin User</p>
-              <p className="text-xs text-gray-500">admin@hotel.com</p>
-            </div>
-          </div>
+          ) : (
+            <p className="text-sm text-gray-500">Not logged in</p>
+          )}
         </div>
       </aside>
 
@@ -136,11 +184,6 @@ export default function AdminLayout() {
             </div>
 
             <div className="flex items-center space-x-4">
-              <button className="relative p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100 rounded-lg">
-                <Bell className="w-5 h-5" />
-                <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
-              </button>
-
               {/* user dropdown */}
               <div className="relative user-menu">
                 <button
@@ -152,22 +195,11 @@ export default function AdminLayout() {
                 </button>
                 {userMenuOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border">
-                    <NavLink
-                      to="profile"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      onClick={() => setUserMenuOpen(false)}
-                    >
-                      Profile
-                    </NavLink>
-                    <NavLink
-                      to="pengaturan"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      onClick={() => setUserMenuOpen(false)}
-                    >
-                      Settings
-                    </NavLink>
                     <hr className="my-1" />
-                    <button className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 flex items-center">
+                    <button
+                      onClick={handleLogout}
+                      className="w-full px-4 py-2 text-left text-sm text-red-700 hover:bg-red-50 flex items-center"
+                    >
                       <LogOut className="w-4 h-4 mr-2" />
                       Logout
                     </button>
