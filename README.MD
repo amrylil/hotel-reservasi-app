@@ -37,7 +37,6 @@ Sistem Reservasi Hotel Online adalah aplikasi web fullstack yang menangani semua
 
 - Login dan registrasi pengguna
 - Role-based access control (admin & customer)
-- JWT authentication untuk keamanan
 
 ### 🛌 Manajemen Kamar Hotel
 
@@ -58,28 +57,20 @@ Sistem Reservasi Hotel Online adalah aplikasi web fullstack yang menangani semua
 - Integrasi dengan **Midtrans Payment Gateway**
 - Mendukung berbagai metode pembayaran (kartu kredit, e-wallet, bank transfer)
 - Sistem pembayaran yang aman dan terpercaya
-- Notifikasi pembayaran otomatis
 
 ### 🔍 Pencarian & Filter Kamar
 
 - Filter kamar berdasarkan tanggal check-in dan check-out
-- Pencarian berdasarkan tipe kamar
-- Filter harga dan fasilitas
-- Sorting berdasarkan harga dan rating
 
 ### 📊 Riwayat Transaksi
 
 - Melihat riwayat pemesanan
 - Detail transaksi dan status pembayaran
-- Download invoice/receipt
-- Tracking status reservasi
 
 ### 📱 User Interface
 
 - Responsive design untuk semua device
 - Modern dan user-friendly interface
-- Real-time updates menggunakan WebSocket
-- Loading states dan error handling
 
 ## 📋 Prerequisites
 
@@ -124,6 +115,17 @@ npm run dev
 
 - **Frontend** akan berjalan di `http://localhost:5173`
 - **Backend API** akan berjalan di `http://localhost:5000`
+
+## 💳 Akun Admin
+
+Email : 
+```bash
+admin@hotel.com
+```
+Password : 
+```bash
+admin123
+```
 
 ## 💳 Testing Pembayaran
 
@@ -192,7 +194,6 @@ HOTEL_RESERVASI_APP/
 ### Payments
 
 - `POST /api/payments/create` - Membuat pembayaran
-- `POST /api/payments/notification` - Webhook Midtrans
 - `GET /api/payments/status/:orderId` - Status pembayaran
 
 ## 🤝 Kontribusi
