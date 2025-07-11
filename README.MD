@@ -29,7 +29,7 @@ Proyek ini dikembangkan oleh **Kelompok 4** yang terdiri dari:
 
 ## 📝 Deskripsi Proyek
 
-Sistem Reservasi Hotel Online adalah aplikasi web fullstack yang menangani semua aspek pemesanan hotel, mulai dari pencarian kamar hingga pembayaran. Aplikasi ini dirancang dengan arsitektur modern yang memisahkan frontend dan backend, memberikan user experience yang responsif dan performa tinggi dengan implementasi caching menggunakan Redis.
+Sistem Reservasi Hotel Online adalah aplikasi web fullstack yang menangani semua aspek pemesanan hotel, mulai dari pencarian kamar hingga pembayaran. Aplikasi ini dirancang dengan arsitektur modern yang memisahkan frontend dan backend, memberikan user experience yang responsif dan performa tinggi.
 
 ## ✨ Fitur Utama
 
@@ -66,11 +66,6 @@ Sistem Reservasi Hotel Online adalah aplikasi web fullstack yang menangani semua
 
 - Melihat riwayat pemesanan
 - Detail transaksi dan status pembayaran
-
-### 📱 User Interface
-
-- Responsive design untuk semua device
-- Modern dan user-friendly interface
 
 ## 📋 Prerequisites
 
@@ -116,7 +111,7 @@ npm run dev
 - **Frontend** akan berjalan di `http://localhost:5173`
 - **Backend API** akan berjalan di `http://localhost:5000`
 
-## 💳 Akun Admin
+## 👨‍🦱 Akun Admin
 
 Email : 
 ```bash
